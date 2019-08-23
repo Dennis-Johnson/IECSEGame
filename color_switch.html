@@ -1,0 +1,295 @@
+<html>
+    <head></head>
+    <body id="bod">
+        <center><canvas id="game_stage" width="400" height="600"></canvas></center>
+        <script src="./color_switch.js"></script>
+    </body>
+</html>
+<script>
+    //geme objecr that holds background and graphic context
+    var game={draw:game_stage.getContext('2d'),h:600,w:400,bg_color:"#000000",xpos:0,ypos:0,start:false,gameover:false};
+    //declare player object nad initialize the play position x axis position and ya axis height width dn color
+    var player={xpos:200-7,ypos:550,h:14,w:14,color:"",rot:0};
+    //we create a world object all obstacle y axis will depend in word ypos;
+    //so we can make a camera following movement effect
+    var world={xpos:210,ypos:550,rotx:0,roty:90};
+    var score=0;
+    var coords={
+        x_axis:function(x){
+           
+           
+            return (x*Math.cos(world.rotx*(Math.PI/180))+world.xpos);
+        },
+        y_axis:function get_y(y){
+             //in this equation we solve the sin of what ever value above(y) in world xpos  for example:
+             /*
+             y=-30;
+             world_y=550;
+             and rotation is 90deg
+             so it means the y`s distance in world y is negative -30 so the position of y is 520
+             figure:
+             -------------
+             ------y------520
+             ------.------>>90degree
+             ------.------
+             ------w------500
+             -------------
+             -------------
+            */
+            return (y*Math.sin(world.roty*(Math.PI/180))+world.ypos);
+            
+        }
+    }
+    //this array will hold all obstacle
+    var _obs=[];
+    var _player_death_particle=[];
+    var _switch=[];
+    //this collection of colors that we will get the value random
+    var colorz=['cyan','yellow','purple'];
+    //initialize player color
+    player.color=colorz[Math.floor(Math.random()*colorz.length)];
+    function switch_obs(){
+        this.xpos;
+        this.ypos;
+        this.w;
+        this.h;
+        this.init=function(){
+            
+        }
+    }
+    function player_death_effect(){
+        this.xpos;
+        this.ypos;
+        this.spedx=0;
+        this.spedy=0;
+        this.w=5;
+        this.h=5;
+        this.color;
+        this.init=function(x,y,sx,sy,color){
+            this.xpos=x;
+            this.ypos=y;
+            this.spedx=sx;
+            this.spedy=sy;
+            this.color=color;
+        }
+        this.draw=function(){
+            //check if oarticle hits in left side
+            if(this.xpos<=0){
+                //if sped is negative we make positive 
+                if(this.spedx<0){
+                    this.spedx=this.spedx-(this.spedx*2);
+                }else{
+                    this.spedx=this.spedx*-1;
+                }
+                //vice versa . then same sa bottom 
+                if(this.spedy<0){
+                    this.spedy=this.spedy-(this.spedy*2);
+                }else{
+                    this.spedy=this.spedy*-1;
+                } 
+            }
+            if(this.xpos+this.w>game.w){
+                if(this.spedx<0){
+                    this.spedx=this.spedx-(this.spedx*2);
+                }else{
+                    this.spedx=this.spedx*-1;
+                }
+                if(this.spedy<0){
+                    this.spedy=this.spedy-(this.spedy*2);
+                }else{
+                    this.spedy=this.spedy*-1;
+                } 
+            }
+            if(this.ypos<=0){
+                if(this.spedx<0){
+                    this.spedx=this.spedx-(this.spedx*2);
+                }else{
+                    this.spedx=this.spedx*-1;
+                }
+                if(this.spedy<0){
+                    this.spedy=this.spedy-(this.spedy*2);
+                }else{
+                    this.spedy=this.spedy*-1;
+                } 
+            }
+            if(this.ypos+this.y>=game.h){
+                if(this.spedx<0){
+                    this.spedx=this.spedx-(this.spedx*2);
+                }else{
+                    this.spedx=this.spedx*-1;
+                }
+                if(this.spedy<0){
+                    this.spedy=this.spedy-(this.spedy*2);
+                }else{
+                    this.spedy=this.spedy*-1;
+                } 
+            }
+            //we decrement the hieght and width of particles to make a fading effect :
+            this.w-=0.03;
+            this.h-=0.03;
+            //draw the particle in in canvas
+            game.draw.fillStyle=this.color;
+            game.draw.fillRect(this.xpos+=this.spedx,this.ypos+=this.spedy,this.w,this.h);
+        }
+    }
+    var gravity=0;
+    //fource to make our player jump 
+    var forceup=0;
+    function main_(){
+        //console.log(coords.y_axis(_obs[_obs.length-1].next*-1));
+        //the main will not create a looping effect unless we click a keyboard once and the gamestart is equal to true
+        if(game.start==true){
+        window.requestAnimationFrame(main_); 
+        }
+        game.draw.fillStyle=game.bg_color;
+        game.draw.fillRect(game.xpos,game.ypos,game.w,game.h);
+        
+        if(game.gameover==false){
+            player_();
+        }
+       
+
+        obs_();
+        player_death_paticle_draw_();
+        if(coords.y_axis(_obs[_obs.length-1].next*-1)>=0){
+          create_obs_();
+        }
+        game.draw.font="20px tahoma";
+        game.draw.fillStyle="white";
+        game.draw.fillText("Score: "+score,20,40);
+        game.draw.fillText("IECSE",game.w-80,40);
+    }
+    //player function
+    function player_(){
+        //we rotate the olayer to one then if the rotaion is greater than 360 the player rotation will be 0 again
+        player.rot+=2;
+        if(player.rot>=360){
+            player.rot=0;
+        }
+        //we put the game save() and resore function because the estatement between save and restore only we be affected in rotate function and translate function try to remove it to what will happen :)
+        game.draw.save();
+            game.draw.translate(player.xpos+7,player.ypos+7);
+            game.draw.rotate(player.rot*(Math.PI/180));
+            game.draw.fillStyle = player.color;
+            game.draw.fillRect(-7,-7,player.w,player.h);
+        game.draw.restore();
+        //then if the player ypos is less than 400 there is following camera effetct
+        if(player.ypos>400){
+            player.ypos+=forceup-gravity;
+        }
+        else{
+            //if the fource up is still negative it means the play is still reaching its higheist point then the camera movement will effect but we just make our player movement puase and the obstacle fall.. it`s a trick to ceate a follwing camera effect for me haha
+            if(forceup-gravity<0){
+                world.ypos-=forceup-gravity;
+            }else{
+               player.ypos+=forceup-gravity; 
+            }
+        }
+        //we decrement the gravity to make our player jumping like the gravity pulling it 
+        /*example: we jump until we reach our highest point
+                        //until it reach 0 and so on the velocityw is 0 when it reach its highest point 
+                        2-0.18
+                        2-0.9    
+                        2-0;jump start here
+        */
+        gravity-=0.19;
+        if(player.ypos+player.w>=game.h&&game.gameover==false){
+            player_is_dead_();
+            game.gameover=true;
+
+        }
+    }
+    //function call where the player hit in obstacle that is not equal the color of obstacle
+    function player_is_dead_(){
+        var rad=360/10;
+        var rot=0;
+        var speed=25;
+        
+        for(var i=0;i<10;i++){
+            var xx=100*Math.cos(rot*(Math.PI/180))+player.xpos;
+            var yy=100*Math.sin(rot*(Math.PI/180))+player.ypos;
+            var sx=xx-player.xpos;
+            var sy=yy-player.ypos;
+            var distance=Math.sqrt(xx*xx+yy*yy);
+            var sped=distance/speed;
+            _player_death_particle.push(new player_death_effect());
+            _player_death_particle[_player_death_particle.length-1].init(player.xpos+5,player.ypos+5,sx/sped,sy/sped,player.color);
+            rot+=rad;
+        }
+    }
+    function player_death_paticle_draw_(){
+        for(var i=0;i<_player_death_particle.length;i++){
+            _player_death_particle[i].draw();
+            if(_player_death_particle[i].h<0){
+                _player_death_particle.splice(i,1);
+            }
+        }  
+    }
+    //
+    function obs_(){
+        //we loop it if ther i did not meet the condition and we draw the obstacles
+        for(var i=0;i<_obs.length;i++){
+            _obs[i].draw(i);
+        }
+        for(var i=0;i<_obs.length;i++){
+            _obs[i].check(i);
+        }
+    }
+
+    _obs.push(new obs1());
+    _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0,150);
+    var create_obs=false;
+    create_obs=true;
+
+    function create_obs_(){
+        if(create_obs==true){
+            var rand=Math.floor(Math.random()*3);     //CHANGE according to no of obstacles available
+            if(rand==0){
+                _obs.push(new obs2());
+                _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+90);
+            }
+            else if(rand==1){
+                _obs.push(new obs3());
+                _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+40);
+            }
+            else if(rand==2){
+                _obs.push(new obs4());
+                _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next);
+            }
+            // else if(rand==3){
+            //     _obs.push(new obs5());
+            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+40);
+            // }
+            // else if(rand==4){
+            //     _obs.push(new obs6());
+            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
+            // }else{
+            //     _obs.push(new obs7());
+            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
+            // }
+        }
+    }
+    create_obs_();
+    create_obs_();
+   
+    bod.onkeypress=function(e){
+        if(e.keyCode==32){
+            if(game.start==false){
+                game.start=true; 
+                main_();
+            }
+            //every time we press a key the gravity will be zero and force up will be -2.4 to make out player jump 
+            gravity=0;
+            forceup=-3.5;
+        }   
+    }
+
+    window.onload=()=>{
+        main_();
+    }
+
+</script>
+<!-- 
+game.draw.font="40px tahoma";
+game.draw.fillStyle="white";
+game.draw.fillText("General Body Meeting\n Date\nMV Seminar Hall",20,200); -->
