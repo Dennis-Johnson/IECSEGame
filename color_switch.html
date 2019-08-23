@@ -151,7 +151,7 @@
 
         obs_();
         player_death_paticle_draw_();
-        if(coords.y_axis(_obs[_obs.length-1].next*-1)>=0){
+        if(coords.y_axis(_obs[_obs.length-1].next*-1)>=0 && score<=8){
           create_obs_();
         }
         game.draw.font="20px tahoma";
@@ -285,7 +285,13 @@
     }
 
     window.onload=()=>{
-        main_();
+        // TODO Style the landing Page!
+        game.draw.fillStyle="black";
+        game.draw.font="50px tahoma";
+        game.draw.fillText("IECSE",game.w/3,200);
+        game.draw.font="30px tahoma";
+        game.draw.fillText("Press Spacebar to play",75,400);
+        // main_();   //Dont run on window start 
     }
 
 </script>
