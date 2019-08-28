@@ -12,7 +12,7 @@
 </html>
 <script>
 
-    var game = { draw: game_stage.getContext('2d'), h: 600, w: 400, bg_color: "#000000", xpos: 0, ypos: 0, start: false, gameover: false };
+    var game = { draw: game_stage.getContext('2d'),showDead:true, h: 600, w: 400, bg_color: "#000000", xpos: 0, ypos: 0, start: false, gameover: false };
     var player = { xpos: 200 - 7, ypos: 550, h: 14, w: 14, color: "", rot: 0 };
     var world = { xpos: 210, ypos: 550, rotx: 0, roty: 90 };
     var score = 0;
@@ -26,28 +26,10 @@
 
     var coords = {
         x_axis: function (x) {
-
-
             return (x * Math.cos(world.rotx * (Math.PI / 180)) + world.xpos);
         },
         y_axis: function get_y(y) {
-            //in this equation we solve the sin of what ever value above(y) in world xpos  for example:
-            /*
-            y=-30;
-            world_y=550;
-            and rotation is 90deg
-            so it means the y`s distance in world y is negative -30 so the position of y is 520
-            figure:
-            -------------
-            ------y------520
-            ------.------>>90degree
-            ------.------
-            ------w------500
-            -------------
-            -------------
-           */
             return (y * Math.sin(world.roty * (Math.PI / 180)) + world.ypos);
-
         }
     }
 
@@ -130,6 +112,7 @@
                 }
             }
             //we decrement the hieght and width of particles to make a fading effect :
+            
             this.w -= 0.03;
             this.h -= 0.03;
             //draw the particle in in canvas
@@ -139,15 +122,22 @@
     }
 
     function main_() {
-        // console.log(coords.y_axis(_obs[_obs.length-1].next*-1));
-        //the main will not create a looping effect unless we click a keyboard once and the gamestart is equal to true
-        if(game.gameover == true) {
-                showDetails();
-                return;
-        }
+        
         if (game.start == true) {
             window.requestAnimationFrame(main_);
         }
+        if(game.gameover == true && game.showDead == true) {
+            var deathTimer=setTimeout(function(){
+                game.showDead = false;
+                showDetails();
+                return;
+            },2000)
+        }
+        if(game.showDead==false){
+            showDetails();
+            return;
+        }
+
         
         game.draw.fillStyle = game.bg_color;
         game.draw.fillRect(game.xpos, game.ypos, game.w, game.h);
@@ -157,7 +147,8 @@
         }
 
         obs_();
-        player_death_paticle_draw_();
+        player_death_paticle_draw_();                       //death effect 
+
         if (coords.y_axis(_obs[_obs.length - 1].next * -1) >= 0 && score <= 7) {
             create_obs_();
         }
@@ -166,6 +157,7 @@
         game.draw.fillText("Score: " + score, 40, 40);
         game.draw.fillText("IECSE", game.w - 80, 40);              //TODO Replace with 'S' of IECSE
     }
+    
     //player function
     function player_() {
         //we rotate the olayer to one then if the rotaion is greater than 360 the player rotation will be 0 again
@@ -173,7 +165,7 @@
         if (player.rot >= 360) {
             player.rot = 0;
         }
-        //we put the game save() and resore function because the estatement between save and restore only we be affected in rotate function and translate function try to remove it to what will happen :)
+        
         game.draw.save();
         game.draw.translate(player.xpos + 7, player.ypos + 7);
         game.draw.rotate(player.rot * (Math.PI / 180));
@@ -193,17 +185,9 @@
             }
         }
 
-        // //we decrement the gravity to make our player jumping like the gravity pulling it 
-        // /*example: we jump until we reach our highest point
-        //                 //until it reach 0 and so on the velocityw is 0 when it reach its highest point 
-        //                 2-0.18
-        //                 2-0.9    
-        //                 2-0;jump start here
-        // */
         gravity -= 0.19;
-        if (player.ypos + player.w >= game.h && game.gameover == false) {
+        if (player.ypos + player.w >= game.h) {
             player_is_dead_();
-            game.gameover = true;
         }
     }
     //function call where the player hit in obstacle that is not equal the color of obstacle
@@ -231,6 +215,7 @@
                 _player_death_particle.splice(i, 1);
             }
         }
+
     }
     //
     function obs_() {
@@ -315,22 +300,21 @@
     }
 
     function showDetails() {
-
+        player_death_paticle_draw_();
         game.gameover=true;
 
         game.draw.clearRect(0,0,game.w,game.h)
         game.draw.fillStyle = "black"
         game.draw.fillRect(0, 0, game.w, game.h)            //black BG
 
-
+        //center align wrt the middle of the canvas
         game.draw.textAlign = "center";
         game.draw.fillStyle="white"; 
-        game.draw.fillText("Game Over!",game.w/2,200);   
+        game.draw.fillText("Game Over!",game.w/2,200); 
+        game.draw.fillText("GBM Details",game.w/2,300)  
         // var timer = setTimeout(function () {
         //     window.location = 'https://iecsemanipal.com'
-        // }, 6500);                                            /*TODO uncomment later!*/
-        console.log("Game Over!")
-        
+        // }, 6000);                                            /*TODO uncomment later!*/
     }
 
 </script>
