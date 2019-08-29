@@ -149,9 +149,17 @@
         obs_();
         player_death_paticle_draw_();                       //death effect 
 
-        if (coords.y_axis(_obs[_obs.length - 1].next * -1) >= 0 && score <= 7) {
+        if (coords.y_axis(_obs[_obs.length - 1].next * -1) >= 0 ) {
             create_obs_();
         }
+        if(score == 2){
+            create_obs =false;
+   
+            // if(score > 3){
+            //     // player_is_dead_();                   //TODO FIX GAME WIN
+            // }
+        }
+
         game.draw.font = "20px tahoma";
         game.draw.fillStyle = "white";
         game.draw.fillText("Score: " + score, 40, 40);
@@ -167,10 +175,10 @@
         }
         
         game.draw.save();
-        game.draw.translate(player.xpos + 7, player.ypos + 7);
-        game.draw.rotate(player.rot * (Math.PI / 180));
-        game.draw.fillStyle = player.color;
-        game.draw.fillRect(-7, -7, player.w, player.h);
+            game.draw.translate(player.xpos + 7, player.ypos + 7);
+            game.draw.rotate(player.rot * (Math.PI / 180));
+            game.draw.fillStyle = player.color;
+            game.draw.fillRect(-7, -7, player.w, player.h);
         game.draw.restore();
         //then if the player ypos is less than 400 there is following camera effetct
         if (player.ypos > 400) {
@@ -235,7 +243,7 @@
 
     function create_obs_() {
         if (create_obs == true) {
-            var rand = Math.floor(Math.random() * 6);     //CHANGE according to no of obstacles available
+            var rand = Math.floor(Math.random() * 4);     //CHANGE according to no of obstacles available
             if (rand == 0) {
                 _obs.push(new obs2());
                 _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next + 90);
@@ -244,25 +252,24 @@
                 _obs.push(new obs3());
                 _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next + 40);
             }
-            // else if (rand == 2) {
-            //     _obs.push(new obs4());
-            //     _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next);
-            // }
-            else if(rand==3){
-                _obs.push(new obs5());
-                _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+40);
+            else if (rand == 2) {
+                _obs.push(new obs4());
+                _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next);
             }
-            // else if(rand==4){
-            //     _obs.push(new obs6());
-            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
-            // }else{
+            // else if(rand==3){
+            //     _obs.push(new obs5());
+            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+40);
+            // }
+            else {
+                _obs.push(new obs6());
+                _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
+            }
+            // else{
             //     _obs.push(new obs7());
             //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
             // }
         }
     }
-    create_obs_();
-    create_obs_();
 
     bod.onkeypress = function (e) {
         if (e.keyCode == 32) {
