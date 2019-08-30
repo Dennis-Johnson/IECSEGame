@@ -144,13 +144,18 @@
             return;
         }
 
-
+        
         game.draw.fillStyle = game.bg_color;
         game.draw.fillRect(game.xpos, game.ypos, game.w, game.h);
 
         if (game.gameover == false) {
             player_();
         }
+        if (player.ypos + player.w >= game.h) {
+            showDetails();
+            return;
+        }
+
 
         obs_();
         player_death_paticle_draw_();                       //death effect 
@@ -327,13 +332,13 @@
         // TODO Style the landing Page!
         // TODO Scale the canvas for mobile
         // game.draw.scale(0.75,0.75)
+        // main_();
 
         iecse_full.onload = function () {
             game.draw.drawImage(iecse_full, game.w / 2 - 100, game.h / 2 - 200, 200, 120)
         };
         iecse_full.src = "iecse_full";
         iecse_s.src = "iecse_s";
-
 
 
         var colorSwitch = "Color Switch"
