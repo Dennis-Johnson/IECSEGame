@@ -162,20 +162,45 @@
             showDetails()
             return
         }
-        if (score == 3) {
-            create_obs = false;
+        if (score == 3) create_obs = false;
 
-            // if(score > 3){
-            //     // player_is_dead_();                   //TODO FIX GAME WIN
-            // }
-        }
-        // game.draw.fillText
-        game.draw.font = "25px Georgia";
+        
+        game.draw.font = "20px tahoma";
         game.draw.strokeStyle = "white";
+        game.draw.fillStyle = "white";
+        game.draw.fillText("Domains: "+score,15,30)
         game.draw.textAlign = "left"
-        if (score >=1) game.draw.strokeText(domains[index], 20, 42);
-        game.draw.drawImage(iecse_s, game.w - 65, 15, 50, 50);
+        if (score >=1){
+            // game.draw.strokeText(domains[index], 20, 42);
+     
+            game.draw.save();
+                game.draw.textAlign = "center";
+                game.draw.textBaseline="middle"
+                game.draw.font = `${beatFont}px tahoma`;
+                game.draw.fillStyle="black"
+                game.draw.fillRect(0,545,game.w,590)
+                game.draw.fillStyle="white"
+                game.draw.fillText(domains[index],game.w/2,570)
+            game.draw.restore();
 
+
+       
+        }
+        game.draw.drawImage(iecse_s, game.w - 65, 15, 50, 50);
+        
+
+    }
+    var fontIndex=0;
+    var fontSizes = [20,21,22,23,24,25,26,25,24,20,21,22,23,24,25,26,25,24,20,20,20,20,20]
+
+    var beatTimer = setInterval(function(){
+        beat();
+    },60)
+
+    function beat(){
+        if(fontIndex==fontSizes.length)fontIndex=0;
+        beatFont=fontSizes[fontIndex]
+        fontIndex++
     }
 
     //player function
@@ -190,8 +215,7 @@
         game.draw.translate(player.xpos + 7, player.ypos + 7);
         game.draw.rotate(player.rot * (Math.PI / 180));
         game.draw.fillStyle = player.color;
-        game.draw.fillRect(-7, -7, player.w, player.h);
-        game.draw.drawImage(iecse_s,-7,-7, player.w,player.h);        
+        game.draw.fillRect(-7, -7, player.w, player.h);    
         game.draw.restore();
         //then if the player ypos is less than 400 there is following camera effetct
         if (player.ypos > 400) {
@@ -335,11 +359,11 @@
         //center align wrt the middle of the canvas
         game.draw.textAlign = "center";
         game.draw.fillStyle = "white";
-        game.draw.fillText("Game Over!", game.w / 2, 200);
-        game.draw.fillText("GBM Details", game.w / 2, 300)
-        var timer = setTimeout(function () {
-            window.location = 'https://iecsemanipal.com'
-        }, 6000);                                            /*TODO uncomment later!*/
+        game.draw.fillText("Game Over", game.w / 2, 200);
+        game.draw.fillText("GBM Details bruh", game.w / 2, 300)
+        // var timer = setTimeout(function () {
+        //     window.location = 'https://iecsemanipal.com'
+        // }, 6000);                                            /*TODO uncomment later!*/
     }
 
 </script>
