@@ -60,7 +60,8 @@ function obs1(){
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-50)+7>=player.ypos){
                    this.switched=true;
-                    score++;
+                    index++;
+                    score++;               
                     player.color=colorz[Math.floor(Math.random()*colorz.length)];
                 }
                 this.rot+=2;
@@ -154,6 +155,7 @@ function obs1(){
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis)+7>=player.ypos){
                    this.switched=true;
+                    index++;
                     score++;
                     player.color=colorz[Math.floor(Math.random()*colorz.length)];
                 }
@@ -244,6 +246,7 @@ function obs1(){
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-80)+7>=player.ypos){
                    this.switched=true;
+                    index++;
                     score++;
                     player.color=colorz[Math.floor(Math.random()*colorz.length)];
                 }
@@ -343,6 +346,7 @@ function obs1(){
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-65)+7>=player.ypos){
                    this.switched=true;
+                    index++;
                     score++;
                     player.color=colorz[Math.floor(Math.random()*colorz.length)];
                 }
@@ -462,6 +466,7 @@ function obs1(){
     //             if(coords.y_axis(this.y_axis-80)>=player.ypos){
     //                this.switched=true;
     //                 player.color=colorz[Math.floor(Math.random()*colorz.length)];
+    //                 index++;
     //                 score++;
     //             }
     //             this.rott+=2;
@@ -575,6 +580,7 @@ function obs1(){
                 if(coords.y_axis(this.y_axis)>=player.ypos){
                    this.switched=true;
                     player.color=colorz[Math.floor(Math.random()*colorz.length)];
+                    index++;
                     score++;
                 }
                 this.rott+=2;
@@ -739,6 +745,7 @@ function obs1(){
                 if(coords.y_axis(this.y_axis-60)>=player.ypos){
                     this.switched=true;
                     player.color=colorz[Math.floor(Math.random()*colorz.length)];
+                    index++;
                     score++;
                 }
                 this.rott+=2;

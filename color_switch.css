@@ -1,0 +1,7 @@
+body{
+    overflow: hidden;
+    font-family: 'Bangers', cursive;
+}
+#container{
+    margin:0 auto;
+}

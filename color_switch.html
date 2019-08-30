@@ -1,20 +1,24 @@
 <html>
 
-<head></head>
+<head title="ColorSwitch">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./color_switch.css">
+</head>
 
-<body id="bod" width="100%" height="100vh" style="background-color: black">
-    <center>
-        <canvas id="game_stage" width="400" height="600"></canvas>
-    </center>
+<body id="bod" width="100%" height="100vh" style="background-color: white">
+    <div id="container"><canvas id="game_stage" width="400" height="600"></canvas></div>
     <script src="./color_switch.js"></script>
 </body>
 
 </html>
 <script>
 
-    var game = { draw: game_stage.getContext('2d'),showDead:true, h: 600, w: 400, bg_color: "#000000", xpos: 0, ypos: 0, start: false, gameover: false };
+    var game = { draw: game_stage.getContext('2d'), showDead: true, h: 600, w: 400, bg_color: "#000000", xpos: 0, ypos: 0, start: false, gameover: false };
     var player = { xpos: 200 - 7, ypos: 550, h: 14, w: 14, color: "", rot: 0 };
     var world = { xpos: 210, ypos: 550, rotx: 0, roty: 90 };
+    var index = -1;
+    var domains = ["CODE", "WEB", "DESIGN", "DEV", "ML", "HASHTAG"];
     var score = 0;
     var _obs = [];
     var _player_death_particle = [];
@@ -22,6 +26,8 @@
     var colorz = ['cyan', 'yellow', 'purple'];
     var forceup = 0;
     var gravity = 0;
+    var iecse_s = new Image();
+    var iecse_full = new Image();
 
 
     var coords = {
@@ -112,7 +118,7 @@
                 }
             }
             //we decrement the hieght and width of particles to make a fading effect :
-            
+
             this.w -= 0.03;
             this.h -= 0.03;
             //draw the particle in in canvas
@@ -122,23 +128,23 @@
     }
 
     function main_() {
-        
+
         if (game.start == true) {
             window.requestAnimationFrame(main_);
         }
-        if(game.gameover == true && game.showDead == true) {
-            var deathTimer=setTimeout(function(){
+        if (game.gameover == true && game.showDead == true) {
+            var deathTimer = setTimeout(function () {
                 game.showDead = false;
                 showDetails();
                 return;
-            },2000)
+            }, 2000)
         }
-        if(game.showDead==false){
+        if (game.showDead == false) {
             showDetails();
             return;
         }
 
-        
+
         game.draw.fillStyle = game.bg_color;
         game.draw.fillRect(game.xpos, game.ypos, game.w, game.h);
 
@@ -149,36 +155,43 @@
         obs_();
         player_death_paticle_draw_();                       //death effect 
 
-        if (coords.y_axis(_obs[_obs.length - 1].next * -1) >= 0 ) {
+        if (coords.y_axis(_obs[_obs.length - 1].next * -1) >= 0) {
             create_obs_();
         }
-        if(score == 2){
-            create_obs =false;
-   
+        if (score == obsCount) {
+            showDetails()
+            return
+        }
+        if (score == 3) {
+            create_obs = false;
+
             // if(score > 3){
             //     // player_is_dead_();                   //TODO FIX GAME WIN
             // }
         }
+        // game.draw.fillText
+        game.draw.font = "25px Georgia";
+        game.draw.strokeStyle = "white";
+        game.draw.textAlign = "left"
+        if (score >=1) game.draw.strokeText(domains[index], 20, 42);
+        game.draw.drawImage(iecse_s, game.w - 65, 15, 50, 50);
 
-        game.draw.font = "20px tahoma";
-        game.draw.fillStyle = "white";
-        game.draw.fillText("Score: " + score, 40, 40);
-        game.draw.fillText("IECSE", game.w - 80, 40);              //TODO Replace with 'S' of IECSE
     }
-    
+
     //player function
     function player_() {
         //we rotate the olayer to one then if the rotaion is greater than 360 the player rotation will be 0 again
-        player.rot += 2;
+        player.rot += 1;
         if (player.rot >= 360) {
             player.rot = 0;
         }
-        
+
         game.draw.save();
-            game.draw.translate(player.xpos + 7, player.ypos + 7);
-            game.draw.rotate(player.rot * (Math.PI / 180));
-            game.draw.fillStyle = player.color;
-            game.draw.fillRect(-7, -7, player.w, player.h);
+        game.draw.translate(player.xpos + 7, player.ypos + 7);
+        game.draw.rotate(player.rot * (Math.PI / 180));
+        game.draw.fillStyle = player.color;
+        game.draw.fillRect(-7, -7, player.w, player.h);
+        game.draw.drawImage(iecse_s,-7,-7, player.w,player.h);        
         game.draw.restore();
         //then if the player ypos is less than 400 there is following camera effetct
         if (player.ypos > 400) {
@@ -237,6 +250,7 @@
     }
 
     _obs.push(new obs1());
+    var obsCount = 1;
     _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, 150);
     var create_obs = false;
     create_obs = true;
@@ -259,69 +273,73 @@
             // else if(rand==3){
             //     _obs.push(new obs5());
             //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+40);
-            // }
+            // }      
             else {
                 _obs.push(new obs6());
-                _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
+                _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next + 80);
             }
             // else{
             //     _obs.push(new obs7());
             //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
             // }
+            obsCount++;
         }
+    }
+    bod.addEventListener("touchstart", function (e) { jump(); })
+    bod.onkeypress = function (e) { if (e.keyCode == 32) jump(); }
+
+    function jump() {
+        if (game.start == false && game.gameover == false) {
+            game.start = true;
+            main_();
+        }
+        //Every time we press a key the gravity will be zero and force up will be -2.4 to make out player jump 
+        gravity = 0;
+        forceup = -3.5;
     }
 
-    bod.onkeypress = function (e) {
-        if (e.keyCode == 32) {
-            if (game.start == false && game.gameover==false) {
-                game.start = true;
-                main_();
-            }
-            //every time we press a key the gravity will be zero and force up will be -2.4 to make out player jump 
-            gravity = 0;
-            forceup = -3.5;
-        }
-    }
 
     window.onload = () => {
         // TODO Style the landing Page!
-        var iecse = new Image();
-        iecse.onload = function () {
-            game.draw.drawImage(iecse, game.w / 2 - 100, game.h / 2 - 200, 200, 120)
+        // TODO Scale the canvas for mobile
+        // game.draw.scale(0.75,0.75)
+
+        iecse_full.onload = function () {
+            game.draw.drawImage(iecse_full, game.w / 2 - 100, game.h / 2 - 200, 200, 120)
         };
-        iecse.src = "iecse";
+        iecse_full.src = "iecse_full";
+        iecse_s.src = "iecse_s";
+
+
 
         var colorSwitch = "Color Switch"
-        var pressSpace  = "Tap to Play"
-        
-        game.draw.textAlign="center"
+        var pressSpace = "Tap to Play"
+
+        game.draw.textAlign = "center"
         game.draw.fillRect(0, 0, game.w, game.h)            //black BG
         game.draw.fillStyle = "black"
 
         game.draw.fillStyle = "white"
-        game.draw.font = "30px tahoma"
-        game.draw.fillText(pressSpace,game.w/2, 400)
-
-
-        game.draw.fill();
+        game.draw.font = "30px Georgia"
+        game.draw.fillText(pressSpace, game.w / 2, 400)
     }
 
     function showDetails() {
         player_death_paticle_draw_();
-        game.gameover=true;
+        game.gameover = true;
 
-        game.draw.clearRect(0,0,game.w,game.h)
+        game.draw.clearRect(0, 0, game.w, game.h)
         game.draw.fillStyle = "black"
         game.draw.fillRect(0, 0, game.w, game.h)            //black BG
 
         //center align wrt the middle of the canvas
         game.draw.textAlign = "center";
-        game.draw.fillStyle="white"; 
-        game.draw.fillText("Game Over!",game.w/2,200); 
-        game.draw.fillText("GBM Details",game.w/2,300)  
-        // var timer = setTimeout(function () {
-        //     window.location = 'https://iecsemanipal.com'
-        // }, 6000);                                            /*TODO uncomment later!*/
+        game.draw.fillStyle = "white";
+        game.draw.fillText("Game Over!", game.w / 2, 200);
+        game.draw.fillText("GBM Details", game.w / 2, 300)
+        var timer = setTimeout(function () {
+            window.location = 'https://iecsemanipal.com'
+        }, 6000);                                            /*TODO uncomment later!*/
     }
 
 </script>
