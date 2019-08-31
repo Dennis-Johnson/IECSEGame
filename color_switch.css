@@ -1,7 +1,20 @@
 body{
+    margin: 0;
+    padding: 0;
     overflow: hidden;
     font-family: 'Bangers', cursive;
+    background-color: black;
 }
 #container{
     margin:0 auto;
+    padding: 0;
+
+}
+#bod{
+    position: absolute;
+    left: auto;
+    top: auto;
+    width:400;
+    height: 600;
+    overflow: hidden;
 }

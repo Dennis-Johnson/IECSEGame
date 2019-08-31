@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="./color_switch.css">
 </head>
 
-<body id="bod" width="100%" height="100vh" style="background-color: white">
+<body id="bod" width="100%" height="100%" style="background-color: white">
     <div id="container"><canvas id="game_stage" width="400" height="600"></canvas></div>
     <script src="./color_switch.js"></script>
 </body>
@@ -174,10 +174,9 @@
         game.draw.strokeStyle = "white";
         game.draw.fillStyle = "white";
         game.draw.fillText("Domains: "+score,15,30)
-        game.draw.textAlign = "left"
+        game.draw.textAlign = "left";
+        
         if (score >=1){
-            // game.draw.strokeText(domains[index], 20, 42);
-     
             game.draw.save();
                 game.draw.textAlign = "center";
                 game.draw.textBaseline="middle"
@@ -187,9 +186,6 @@
                 game.draw.fillStyle="white"
                 game.draw.fillText(domains[index],game.w/2,570)
             game.draw.restore();
-
-
-       
         }
         game.draw.drawImage(iecse_s, game.w - 65, 15, 50, 50);
         
@@ -267,9 +263,8 @@
         }
 
     }
-    //
+    
     function obs_() {
-        //we loop it if ther i did not meet the condition and we draw the obstacles
         for (var i = 0; i < _obs.length; i++) {
             _obs[i].draw(i);
         }
@@ -316,6 +311,10 @@
     }
     bod.addEventListener("touchstart", function (e) { jump(); })
     bod.onkeypress = function (e) { if (e.keyCode == 32) jump(); }
+    window.addEventListener("resize",function(){
+        adjustScreen();
+        console.log(window.innerHeight+":"+window.innerWidth)
+    })
 
     function jump() {
         if (game.start == false && game.gameover == false) {
@@ -326,14 +325,35 @@
         gravity = 0;
         forceup = -3.5;
     }
+    function adjustScreen(){
+        var w = 400;
+        var h = 600;
+        
 
+        if(window.innerWidth<400){
+            var scaleX = window.innerWidth/w;
+            game_stage.style.width = window.innerWidth;
+
+            if(window.innerHeight < 600){
+                game_stage.style.height=window.innerHeight;
+            }
+        }
+     
+
+
+
+
+
+        console.log("CSS\n"+game_stage.style.width+':'+game_stage.style.height)
+        console.log("Canvas\n"+game_stage.width+':'+game_stage.height)
+        console.log("Window\n"+window.innerWidth+':'+window.innerHeight)
+        
+    }
 
     window.onload = () => {
         // TODO Style the landing Page!
-        // TODO Scale the canvas for mobile
-        // game.draw.scale(0.75,0.75)
-        // main_();
-
+  
+        adjustScreen();
         iecse_full.onload = function () {
             game.draw.drawImage(iecse_full, game.w / 2 - 100, game.h / 2 - 200, 200, 120)
         };
@@ -361,14 +381,14 @@
         game.draw.fillStyle = "black"
         game.draw.fillRect(0, 0, game.w, game.h)            //black BG
 
-        //center align wrt the middle of the canvas
+
         game.draw.textAlign = "center";
         game.draw.fillStyle = "white";
         game.draw.fillText("Game Over", game.w / 2, 200);
         game.draw.fillText("GBM Details bruh", game.w / 2, 300)
-        var timer = setTimeout(function () {
-            window.location = 'https://iecsemanipal.com'
-        }, 5000);                                            /*TODO uncomment later!*/
-    }
+        // var timer = setTimeout(function () {
+        //     window.location = 'https://iecsemanipal.com'
+        // }, 5000);                                            /*TODO uncomment later!*/
+    } 
 
 </script>
