@@ -335,7 +335,8 @@
     function adjustScreen(){
         var w = 400;
         var h = 600;
-
+        var body = document.getElementById("bod");
+        bod.style.height=window.innerHeight;
         if(window.innerWidth<400){
             var scaleX = window.innerWidth/w;
             game_stage.style.width = window.innerWidth;
