@@ -2,6 +2,7 @@ body{
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: 'Manjari', sans-serif;
     font-family: 'Bangers', cursive;
     background-color: black;
 }
@@ -12,6 +13,7 @@ body{
 }
 #bod{
     position: absolute;
+
     left: auto;
     top: auto;
     width:400;

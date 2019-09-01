@@ -2,7 +2,8 @@
 
 <head title="ColorSwitch">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Manjari&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bangers|Manjari&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./color_switch.css">
 </head>
 
@@ -345,14 +346,14 @@
   
         adjustScreen();
         iecse_full.onload = function () {
-            game.draw.drawImage(iecse_full, game.w / 2 - 125, game.h / 2 - 150, 250, 140)
+            game.draw.drawImage(iecse_full, game.w / 2 - 200, game.h / 2 - 200, 400, 200)
         };
         iecse_full.src = "iecse_full";
         iecse_s.src = "iecse_s";
 
 
         var colorSwitch = "Color Switch"
-        var pressSpace = "Press the spacebar to Play"
+        var pressSpace = "Press spacebar to Play"
 
         if(window.innerWidth < 600)pressSpace = "Tap to play"
 
@@ -361,7 +362,7 @@
         game.draw.fillStyle = "black"
 
         game.draw.fillStyle = "white"
-        game.draw.font = "30px tahoma"
+        game.draw.font = "40px Bangers"
         game.draw.fillText(pressSpace, game.w / 2, 400)
     }
 
@@ -376,11 +377,11 @@
 
         game.draw.textAlign = "center";
         game.draw.fillStyle = "white";
-        game.draw.font = "28px tahoma";
+        game.draw.font = "28px Manjari";
 
 
         game.draw.save();
-            game.draw.font = "35px tahoma";
+            game.draw.font = "35px Manjari";
             game.draw.fillText("Game Over!", game.w / 2, 120);
             game.draw.drawImage(iecse_s, game.w/2-50, 150, 100, 100);
             game.draw.fillText("General Body Meeting", game.w / 2, 320)
