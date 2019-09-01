@@ -55,7 +55,8 @@ function obs1(){
                 game.draw.save();
                     game.draw.translate(player.xpos+7,coords.y_axis(this.y_axis-50)+7);
                     game.draw.rotate(this.rot*(Math.PI/180.));
-                    game.draw.fillStyle="#999999";
+                    game.draw.fillStyle="#d60000";
+                    // game.draw.drawImage(iesce_s,-7,-7,14,14)
                     game.draw.fillRect(-7,-7,14,14);
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-50)+7>=player.ypos){
@@ -111,16 +112,16 @@ function obs1(){
                 */
                 var xx=80*Math.cos(this.rot*(Math.PI/180))+this.xpos;
                 var yy=80*Math.sin(this.rot*(Math.PI/180))+coords.y_axis(this.y_axis);
-                //then the first 10 square color is yello and second 10ns is red then last is yellow 10ns
-                //if i value is less than 10 the color of the sqaure is yellow then if its greater than 10 ang less than
-                //20 the color of the sqaure is yellow
+                //then the first 10 square color is yello and second 10ns is red then last is #ffe100 10ns
+                //if i value is less than 10 the color of the sqaure is #ffe100 then if its greater than 10 ang less than
+                //20 the color of the sqaure is #ffe100
                 //then else if i value is greater than or equal to 20 the color is deepsky blue
                 if(i<10){
-                    color="purple";
+                    color="#531185";
                 }else if(i>=10 && i<20){
                     color="cyan";
                 }else{
-                    color="yellow";
+                    color="#ffe100";
                 }
                 //then we check the coordinates of player and squares rotation in the circle if meet this condition
                 if(xx<=player.xpos&&xx+10>=player.xpos&&yy<=player.ypos&&yy+10>=player.ypos){
@@ -150,7 +151,7 @@ function obs1(){
                 game.draw.save();
                 game.draw.translate(player.xpos+7,coords.y_axis(this.y_axis)+7);
                 game.draw.rotate(this.rott*(Math.PI/180.));
-                game.draw.fillStyle="#999999";
+                game.draw.fillStyle="#d60000";
                 game.draw.fillRect(-7,-7,14,14);
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis)+7>=player.ypos){
@@ -199,12 +200,12 @@ function obs1(){
             this.ypos=coords.y_axis(this.y_axis);
             for(var i=0;i<150;i++){
                 if(i<50){
-                    color="purple";
+                    color="#531185";
                 }else if(i>=50&&i<100){
                     color="cyan";
                 }
                 else{
-                    color="yellow";
+                    color="#ffe100";
                 }
                 var xx=40*Math.cos(this.rot*(Math.PI/180))+this.xpos;
                 var yy=40*Math.sin(this.rot*(Math.PI/180))+this.ypos;
@@ -241,7 +242,7 @@ function obs1(){
                 game.draw.save();
                 game.draw.translate(player.xpos+7,coords.y_axis(this.y_axis-80)+7);
                 game.draw.rotate(this.rott*(Math.PI/180));
-                game.draw.fillStyle="#999999";
+                game.draw.fillStyle="#d60000";
                 game.draw.fillRect(-7,-7,14,14);
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-80)+7>=player.ypos){
@@ -341,7 +342,7 @@ function obs1(){
                 game.draw.save();
                 game.draw.translate(player.xpos+7,coords.y_axis(this.y_axis-65)+7);
                 game.draw.rotate(this.rott*(Math.PI/180));
-                game.draw.fillStyle="#999999";
+                game.draw.fillStyle="#d60000";
                 game.draw.fillRect(-7,-7,14,14);
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-65)+7>=player.ypos){
@@ -390,12 +391,12 @@ function obs1(){
     //         this.ypos=coords.y_axis(this.y_axis);
     //         for(var i=0;i<150;i++){
     //             if(i<50){
-    //                 color="purple";
+    //                 color="#531185";
     //             }else if(i>=50&&i<100){
     //                 color="cyan";
     //             }
     //             else{
-    //                 color="yellow";
+    //                 color="#ffe100";
     //             }
     //             var xx=40*Math.cos((this.rot)*(Math.PI/180))+this.xpos;
     //             var yy=40*Math.sin((this.rot)*(Math.PI/180))+this.ypos;
@@ -460,7 +461,7 @@ function obs1(){
     //             game.draw.save();
     //             game.draw.translate(player.xpos+10,coords.y_axis(this.y_axis-80));
     //             game.draw.rotate(this.rott*(Math.PI/180));
-    //             game.draw.fillStyle="#999999";
+    //             game.draw.fillStyle="#d60000";
     //             game.draw.fillRect(-7,-7,14,14);
     //             game.draw.restore();
     //             if(coords.y_axis(this.y_axis-80)>=player.ypos){
@@ -516,16 +517,16 @@ function obs1(){
                 */
                 var xx=80*Math.cos(this.rot*(Math.PI/180))+this.xpos;
                 var yy=80*Math.sin(this.rot*(Math.PI/180))+coords.y_axis(this.y_axis);
-                //then the first 10 square color is yello and second 10ns is red then last is yellow 10ns
-                //if i value is less than 10 the color of the sqaure is yellow then if its greater than 10 ang less than
-                //20 the color of the sqaure is yellow
+                //then the first 10 square color is yello and second 10ns is red then last is #ffe100 10ns
+                //if i value is less than 10 the color of the sqaure is #ffe100 then if its greater than 10 ang less than
+                //20 the color of the sqaure is #ffe100
                 //then else if i value is greater than or equal to 20 the color is deepsky blue
                 if(i<10){
-                    color="purple";
+                    color="#531185";
                 }else if(i>=10 && i<20){
                     color="cyan";
                 }else{
-                    color="yellow";
+                    color="#ffe100";
                 }
                 //then we check the coordinates of player and squares rotation in the circle if meet this condition
                 if(xx<=player.xpos&&xx+10>=player.xpos&&yy<=player.ypos&&yy+10>=player.ypos){
@@ -574,7 +575,7 @@ function obs1(){
                 game.draw.save();
                 game.draw.translate(player.xpos+10,coords.y_axis(this.y_axis));
                 game.draw.rotate(this.rott*(Math.PI/180));
-                game.draw.fillStyle="#999999";
+                game.draw.fillStyle="#d60000";
                 game.draw.fillRect(-7,-7,14,14);
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis)>=player.ypos){
@@ -625,7 +626,7 @@ function obs1(){
             //axis is the distance in world point
             this.x_axis=x_ax;
             this.y_axis=y_ax*-1;
-            this.color="purple";
+            this.color="#531185";
             this.xpos=0;
             this.next=y_ax+(110*2)+80;
             //_switch.push();
@@ -739,7 +740,7 @@ function obs1(){
                 game.draw.save();
                 game.draw.translate(player.xpos+10,coords.y_axis(this.y_axis-60));
                 game.draw.rotate(this.rott*(Math.PI/180));
-                game.draw.fillStyle="#999999";
+                game.draw.fillStyle="#d60000";
                 game.draw.fillRect(-7,-7,14,14);
                 game.draw.restore();
                 if(coords.y_axis(this.y_axis-60)>=player.ypos){
