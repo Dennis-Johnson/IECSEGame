@@ -18,7 +18,7 @@
     var player = { xpos: 200 - 7, ypos: 550, h: 14, w: 14, color: "", rot: 0 };
     var world = { xpos: 210, ypos: 550, rotx: 0, roty: 90 };
     var index = -1;
-    var domains = ["CODE", "WEB", "DESIGN", "DEV", "ML", "HASHTAG"];
+    var domains = ["CODE", "WEB DEV", "DESIGN", "APP DEV", "ML", "HASHTAG"];
     var score = 0;
     var _obs = [];
     var _player_death_particle = [];
@@ -325,10 +325,10 @@
         gravity = 0;
         forceup = -3.5;
     }
+
     function adjustScreen(){
         var w = 400;
         var h = 600;
-        
 
         if(window.innerWidth<400){
             var scaleX = window.innerWidth/w;
@@ -338,16 +338,6 @@
                 game_stage.style.height=window.innerHeight;
             }
         }
-     
-
-
-
-
-
-        console.log("CSS\n"+game_stage.style.width+':'+game_stage.style.height)
-        console.log("Canvas\n"+game_stage.width+':'+game_stage.height)
-        console.log("Window\n"+window.innerWidth+':'+window.innerHeight)
-        
     }
 
     window.onload = () => {
@@ -355,21 +345,23 @@
   
         adjustScreen();
         iecse_full.onload = function () {
-            game.draw.drawImage(iecse_full, game.w / 2 - 100, game.h / 2 - 200, 200, 120)
+            game.draw.drawImage(iecse_full, game.w / 2 - 125, game.h / 2 - 150, 250, 140)
         };
         iecse_full.src = "iecse_full";
         iecse_s.src = "iecse_s";
 
 
         var colorSwitch = "Color Switch"
-        var pressSpace = "Tap to Play"
+        var pressSpace = "Press the spacebar to Play"
+
+        if(window.innerWidth < 600)pressSpace = "Tap to play"
 
         game.draw.textAlign = "center"
         game.draw.fillRect(0, 0, game.w, game.h)            //black BG
         game.draw.fillStyle = "black"
 
         game.draw.fillStyle = "white"
-        game.draw.font = "30px Georgia"
+        game.draw.font = "30px tahoma"
         game.draw.fillText(pressSpace, game.w / 2, 400)
     }
 
@@ -384,8 +376,23 @@
 
         game.draw.textAlign = "center";
         game.draw.fillStyle = "white";
-        game.draw.fillText("Game Over", game.w / 2, 200);
-        game.draw.fillText("GBM Details bruh", game.w / 2, 300)
+        game.draw.font = "28px tahoma";
+
+
+        game.draw.save();
+            game.draw.font = "35px tahoma";
+            game.draw.fillText("Game Over!", game.w / 2, 120);
+            game.draw.drawImage(iecse_s, game.w/2-50, 150, 100, 100);
+            game.draw.fillText("General Body Meeting", game.w / 2, 320)
+        game.draw.restore();
+
+        game.draw.fillText("MV Seminar Hall", game.w / 2, 435)
+        game.draw.fillText("Slot 1: 6pm | Slot 2: 7pm ", game.w / 2, 470)
+        game.draw.fillText("13th September 2019", game.w / 2, 505)
+
+        
+
+
         // var timer = setTimeout(function () {
         //     window.location = 'https://iecsemanipal.com'
         // }, 5000);                                            /*TODO uncomment later!*/
