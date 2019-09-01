@@ -112,16 +112,16 @@ function obs1(){
                 */
                 var xx=80*Math.cos(this.rot*(Math.PI/180))+this.xpos;
                 var yy=80*Math.sin(this.rot*(Math.PI/180))+coords.y_axis(this.y_axis);
-                //then the first 10 square color is yello and second 10ns is red then last is #ffe100 10ns
-                //if i value is less than 10 the color of the sqaure is #ffe100 then if its greater than 10 ang less than
-                //20 the color of the sqaure is #ffe100
+                //then the first 10 square color is yello and second 10ns is red then last is yellow 10ns
+                //if i value is less than 10 the color of the sqaure is yellow then if its greater than 10 ang less than
+                //20 the color of the sqaure is yellow
                 //then else if i value is greater than or equal to 20 the color is deepsky blue
                 if(i<10){
                     color="#531185";
                 }else if(i>=10 && i<20){
                     color="cyan";
                 }else{
-                    color="#ffe100";
+                    color="yellow";
                 }
                 //then we check the coordinates of player and squares rotation in the circle if meet this condition
                 if(xx<=player.xpos&&xx+10>=player.xpos&&yy<=player.ypos&&yy+10>=player.ypos){
@@ -205,7 +205,7 @@ function obs1(){
                     color="cyan";
                 }
                 else{
-                    color="#ffe100";
+                    color="yellow";
                 }
                 var xx=40*Math.cos(this.rot*(Math.PI/180))+this.xpos;
                 var yy=40*Math.sin(this.rot*(Math.PI/180))+this.ypos;
@@ -396,7 +396,7 @@ function obs1(){
     //                 color="cyan";
     //             }
     //             else{
-    //                 color="#ffe100";
+    //                 color="yellow";
     //             }
     //             var xx=40*Math.cos((this.rot)*(Math.PI/180))+this.xpos;
     //             var yy=40*Math.sin((this.rot)*(Math.PI/180))+this.ypos;
@@ -517,16 +517,16 @@ function obs1(){
                 */
                 var xx=80*Math.cos(this.rot*(Math.PI/180))+this.xpos;
                 var yy=80*Math.sin(this.rot*(Math.PI/180))+coords.y_axis(this.y_axis);
-                //then the first 10 square color is yello and second 10ns is red then last is #ffe100 10ns
-                //if i value is less than 10 the color of the sqaure is #ffe100 then if its greater than 10 ang less than
-                //20 the color of the sqaure is #ffe100
+                //then the first 10 square color is yello and second 10ns is red then last is yellow 10ns
+                //if i value is less than 10 the color of the sqaure is yellow then if its greater than 10 ang less than
+                //20 the color of the sqaure is yellow
                 //then else if i value is greater than or equal to 20 the color is deepsky blue
                 if(i<10){
                     color="#531185";
                 }else if(i>=10 && i<20){
                     color="cyan";
                 }else{
-                    color="#ffe100";
+                    color="yellow";
                 }
                 //then we check the coordinates of player and squares rotation in the circle if meet this condition
                 if(xx<=player.xpos&&xx+10>=player.xpos&&yy<=player.ypos&&yy+10>=player.ypos){
