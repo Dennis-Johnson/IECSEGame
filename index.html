@@ -128,11 +128,15 @@
             game.draw.fillRect(this.xpos += this.spedx, this.ypos += this.spedy, this.w, this.h);
         }
     }
-
+    var requestAnimationFrame = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame;
     function main_() {
 
         if (game.start == true) {
-            window.requestAnimationFrame(main_);
+            requestAnimationFrame(main_);
         }
         if (game.gameover == true && game.showDead == true) {
             var deathTimer = setTimeout(function () {
