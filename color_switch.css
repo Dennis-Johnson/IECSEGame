@@ -1,8 +1,8 @@
 body{
     margin: 0;
+    padding: 0;
     height: 100vh;
     width: 100%;
-    padding: 0;
     overflow: scroll;
     font-family: 'Manjari', sans-serif !important;
     font-family: 'Bangers', cursive !important;
@@ -11,15 +11,13 @@ body{
 #container{
     margin:0 auto;
     padding: 0;
-
 }
 #game_stage{
+    visibility: visible;
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
     display: block;
-    /* width:400;
-    height: 600; */
     overflow: hidden;
 }

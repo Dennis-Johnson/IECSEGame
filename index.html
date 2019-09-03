@@ -28,6 +28,9 @@
     var colorz = ['cyan', 'yellow', '#531185'];
     var forceup = 0;
     var gravity = 0;
+    var showBeginning = true;
+    var button ={};
+
     var iecse_s = new Image();
     var iecse_full = new Image();
 
@@ -300,36 +303,65 @@
                 _obs.push(new obs4());
                 _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next);
             }
-            // else if(rand==3){
-            //     _obs.push(new obs5());
-            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+40);
-            // }      
+     
             else {
-                _obs.push(new obs6());
+                _obs.push(new obs5());
                 _obs[_obs.length - 1].init(colorz[Math.floor(Math.random() * colorz.length)], 0, _obs[_obs.length - 2].next + 80);
             }
-            // else{
-            //     _obs.push(new obs7());
-            //     _obs[_obs.length-1].init(colorz[Math.floor(Math.random()*colorz.length)],0, _obs[_obs.length-2].next+80);
-            // }
             obsCount++;
         }
     }
-    bod.addEventListener("touchstart", function (e) { jump(); })
-    bod.onkeypress = function (e) { if (e.keyCode == 32) jump(); }
+    bod.addEventListener("touchstart", function (e) { 
+        jump(); 
+    })
+    bod.onkeypress = function (e) { 
+        if (e.keyCode == 32) jump(); 
+    }
     window.addEventListener("resize",function(){
         adjustScreen();
-        console.log(window.innerHeight+":"+window.innerWidth)
-    })
+    });
+    game_stage.addEventListener('click',function(e){   
+        var clickPos = getMousePos(game_stage,e);
+        if(isInside(clickPos,button))location.reload();
+        
+    },false);
+
+    game_stage.addEventListener('touchstart',function(e){ 
+        var touchPos = getMousePos(game_stage,e);
+        if(isInside(touchPos,button))location.reload();
+    },false);
+    
+    function getMousePos(canvas,event){
+        var rect = canvas.getBoundingClientRect();    
+        return{
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+    function isInside(pos,rect){
+        return pos.x>rect.x && pos.x<rect.x+rect.width && pos.y<rect.y+rect.height && pos.y>rect.y;
+    }
 
     function jump() {
-        if (game.start == false && game.gameover == false) {
-            game.start = true;
-            main_();
+        if(showBeginning==false){
+            if (game.start == false && game.gameover == false) {
+                game.start = true;
+                main_();
+             } 
+            gravity = 0;
+            forceup = -3.5;
         }
-        //Every time we press a key the gravity will be zero and force up will be -2.4 to make out player jump 
-        gravity = 0;
-        forceup = -3.5;
+        else{
+            game.draw.save();
+            game.draw.clearRect(0, 0, game.w, game.h)
+            game.draw.fillStyle = "black"
+            game.draw.fillRect(0, 0, game.w, game.h) 
+            game.draw.fillStyle="cyan"
+            game.draw.fillText("Tap!",game.w/2,250)
+            game.draw.fillRect(200-7,550,14,14)
+            game.draw.restore();
+            showBeginning = false;
+        }
     }
 
     function adjustScreen(){
@@ -338,7 +370,6 @@
         var body = document.getElementById("bod");
         bod.style.height=window.innerHeight;
         if(window.innerWidth<400){
-            var scaleX = window.innerWidth/w;
             game_stage.style.width = window.innerWidth;
 
             if(window.innerHeight < 600){
@@ -368,6 +399,7 @@
         game.draw.fillStyle = "yellow"
         game.draw.font = "40px Bangers"
         game.draw.fillText(pressSpace, game.w / 2, 400)
+
     }
 
     function showDetails() {
@@ -393,11 +425,30 @@
             game.draw.font = "35px Manjari Bold";
             game.draw.fillStyle="yellow"
             game.draw.fillText("General Body Meeting", game.w / 2, 320)
+
+            game.draw.strokeStyle="white"
+            game.draw.lineWidth=2;
+            game.draw.strokeRect((game.w-190)/2,520,190,60);
+           
+            
+            game.draw.fillText("Play Again",(game.w/2),560)
+            if(window.innerWidth<400 || window.innerHeight<600){
+                button = {
+                x:((game.w-190)/2)*(window.innerWidth/400),
+                y:520*(window.innerHeight/600),
+                width:190*(window.innerWidth/400),
+                height:60*(window.innerHeight/600)
+            }
+            }
+            else button={
+                x:(game.w-190)/2,y:520,width:190,height:60
+            }
+
         game.draw.restore();
 
-        game.draw.fillText("MV Seminar Hall", game.w / 2, 435)
-        game.draw.fillText("Slot 1: 6pm | Slot 2: 7pm ", game.w / 2, 470)
-        game.draw.fillText("13th September 2019", game.w / 2, 505)
+        game.draw.fillText("MV Seminar Hall", game.w / 2, 410)
+        game.draw.fillText("Slot 1: 6pm | Slot 2: 7pm ", game.w / 2, 445)
+        game.draw.fillText("13th September 2019", game.w / 2, 480)
 
         
 
