@@ -1,5 +1,4 @@
 <html>
-
 <head title="ColorSwitch">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#531185" />
@@ -11,8 +10,16 @@
 <body id="bod">
     <div id="container"><canvas id="game_stage" width="400" height="600"></canvas></div>
     <script src="./color_switch.js"></script>
+    <div id="GBM">
+        <div id="gameStatus"></div>
+        <img id="iecse_s" src="iecse_s"/>
+        <div id="gbmHeading">General Body Meeting</div>
+        <div id="MV">MV Seminar Hall</div>
+        <div id="slot">Slot 1: 6pm | Slot 2: 7pm</div>
+        <div id="date">13th September 2019</div>
+        <button id="replay"value="Play Again" onclick="window.location.reload()">Play Again</button>
+    </div>
 </body>
-
 </html>
 <script>
 
@@ -29,7 +36,11 @@
     var forceup = 0;
     var gravity = 0;
     var showBeginning = true;
-    var button ={};
+    var showGBM=true;
+    var gameStatus;
+
+
+
 
     var iecse_s = new Image();
     var iecse_full = new Image();
@@ -146,7 +157,7 @@
                 game.showDead = false;
                 showDetails();
                 return;
-            }, 2000)
+            }, 2000);
         }
         if (game.showDead == false) {
             showDetails();
@@ -320,26 +331,7 @@
     window.addEventListener("resize",function(){
         adjustScreen();
     });
-    game_stage.addEventListener('click',function(e){   
-        var clickPos = getMousePos(game_stage,e);
-        if(isInside(clickPos,button))console.log("Clicked")
-    },false);
 
-    bod.addEventListener('touchstart',function(e){ 
-        var touchPos = getMousePos(game_stage,e);
-        if(isInside(touchPos,button))console.log("Tocuhde")
-    },false);
-    
-    function getMousePos(canvas,event){
-        var rect = canvas.getBoundingClientRect();    
-        return{
-            x: (event.clientX - rect.left)*(400/window.innerWidth),
-            y: (event.clientY - rect.top)* (600/window.innerHeight)
-        };
-    }   
-    function isInside(pos,rect){
-        return pos.x>rect.x && pos.x<rect.x+rect.width && pos.y<rect.y+rect.height && pos.y>rect.y;
-    }
 
     function jump() {
         if(showBeginning==false){
@@ -368,6 +360,7 @@
         var h = 600;
         var body = document.getElementById("bod");
         bod.style.height=window.innerHeight;
+        
         if(window.innerWidth<400){
             game_stage.style.width = window.innerWidth;
             if(window.innerHeight < 600){
@@ -399,65 +392,29 @@
         game.draw.fillText(pressSpace, game.w / 2, 400)
 
     }
+    function GBM(){
+        if(game.gameover==true && showGBM==true){
+            bod.style.height=window.innerHeight;
+            gbm=document.getElementById("GBM")
+            gbm.style.display="block";
+            gs=document.getElementById("gameStatus");
+            gs.innerHTML=`${gameStatus}`;
+            showGBM=false;
+        }
+    }
 
     function showDetails() {
+        if(score>=6)gameStatus="You Win!";
+        else gameStatus = "Game Over"
         player_death_paticle_draw_();
         game.gameover = true;
+        game_stage.style.display="none";
+        game_stage.canvas = null;
+        GBM();
 
-        game.draw.clearRect(0, 0, game.w, game.h)
-        game.draw.fillStyle = "black"
-        game.draw.fillRect(0, 0, game.w, game.h)            //black BG
-
-
-        game.draw.textAlign = "center";
-        game.draw.fillStyle = "white";
-        game.draw.font = "28px Manjari";
-
-
-        game.draw.save();
-            game.draw.font = "35px Bangers";
-            game.draw.fillStyle="yellow"
-            if(score>=6)game.draw.fillText("You Win!", game.w / 2, 120);
-            else game.draw.fillText("Game Over!", game.w / 2, 120);
-            game.draw.drawImage(iecse_s, game.w/2-50, 150, 100, 100);
-            game.draw.font = "35px Manjari Bold";
-            game.draw.fillStyle="yellow"
-            game.draw.fillText("General Body Meeting", game.w / 2, 320)
-
-            game.draw.strokeStyle="white"
-            game.draw.lineWidth=2;
-            game.draw.strokeRect((game.w-190)/2,520,190,60);
-           
-            
-            game.draw.fillText("Play Again",(game.w/2),560)
-            // if(window.innerWidth<400 || window.innerHeight<600){
-            //     button = {
-            //     x:((game.w-190)/2)*(window.innerWidth/400),
-            //     y:520*(window.innerHeight/600),
-            //     width:190*(window.innerWidth/400),
-            //     height:60*(window.innerHeight/600)
-            // }
-            // }
-            // else
-             button={
-                x:(game.w-190)/2,
-                y:520,
-                width:190,
-                height:60
-            }
-
-        game.draw.restore();
-
-        game.draw.fillText("MV Seminar Hall", game.w / 2, 410)
-        game.draw.fillText("Slot 1: 6pm | Slot 2: 7pm ", game.w / 2, 445)
-        game.draw.fillText("13th September 2019", game.w / 2, 480)
-
-        
-
-
-        // var timer = setTimeout(function () {
-        //     window.location = 'https://iecsemanipal.com'
-        // }, 8000);                                           
+        var timer = setTimeout(function () {
+            window.location = 'https://iecsemanipal.com'
+        }, 8000);                                           
     } 
 
 </script>
